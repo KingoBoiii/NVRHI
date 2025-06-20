@@ -11,6 +11,13 @@ project "NVRHI-Vulkan"
 		"include/nvrhi/vulkan.h",
 		"src/vulkan/**.h",
 		"src/vulkan/**.cpp",
+		"src/common/**.h",       -- ADD THIS
+        "src/common/**.cpp",     -- ADD THIS
+        "src/validation/**.h",   -- ADD THIS (optional, but recommended)
+        "src/validation/**.cpp", -- ADD THIS (optional, but recommended)
+
+		"rtxmu/include/**.h",
+		"rtxmu/src/**.cpp"
 	}
 	
 	defines {
@@ -18,6 +25,8 @@ project "NVRHI-Vulkan"
 		"VK_USE_PLATFORM_WIN32_KHR",
 		"NOMINMAX"
 	}
+
+	buildoptions { "/FIstring" }
 
 	VULKAN_SDK = os.getenv("VULKAN_SDK")
 
