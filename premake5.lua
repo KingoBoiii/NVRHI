@@ -96,6 +96,8 @@ project "NVRHI-D3D12"
 
 	files {
 		"include/nvrhi/d3d12.h",
+		
+		"thirdparty/DirectX-Headers/src",
 
 		"src/common/dxgi-format.h",
 		"src/common/dxgi-format.cpp",
@@ -112,6 +114,8 @@ project "NVRHI-D3D12"
 
 	includedirs {
 		"include",
+
+		"thirdparty/DirectX-Headers/include",
 
 		"rtxmu/include",
 	}
