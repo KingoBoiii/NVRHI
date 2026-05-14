@@ -40,7 +40,7 @@ project "NVRHI-Vulkan"
 		buildoptions { "/FIstring" }
 
 	filter "system:linux"
-		excludes { "rtxmu/src/D3D12**.cpp" }
+		excludes { "rtxmu/src/D3D12**.cpp", "src/common/dxgi-format.cpp" }
 		buildoptions { "-include string" }
 
 	filter "configurations:Debug"
