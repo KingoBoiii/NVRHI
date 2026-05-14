@@ -11,22 +11,19 @@ project "NVRHI-Vulkan"
 		"include/nvrhi/vulkan.h",
 		"src/vulkan/**.h",
 		"src/vulkan/**.cpp",
-		"src/common/**.h",       -- ADD THIS
-        "src/common/**.cpp",     -- ADD THIS
-        "src/validation/**.h",   -- ADD THIS (optional, but recommended)
-        "src/validation/**.cpp", -- ADD THIS (optional, but recommended)
+		"src/common/**.h",
+        "src/common/**.cpp",
+        "src/validation/**.h",
+        "src/validation/**.cpp",
 
 		"rtxmu/include/**.h",
 		"rtxmu/src/**.cpp"
 	}
-	
+
 	defines {
 		"NVRHI_WITH_RTXMU=1",
-		"VK_USE_PLATFORM_WIN32_KHR",
 		"NOMINMAX"
 	}
-
-	buildoptions { "/FIstring" }
 
 	VULKAN_SDK = os.getenv("VULKAN_SDK")
 
@@ -37,6 +34,13 @@ project "NVRHI-Vulkan"
 
 		"%{VULKAN_SDK}/Include",
 	}
+
+	filter "system:windows"
+		defines  { "VK_USE_PLATFORM_WIN32_KHR" }
+		buildoptions { "/FIstring" }
+
+	filter "system:linux"
+		excludes { "rtxmu/src/D3D12AccelStructManager.cpp" }
 
 	filter "configurations:Debug"
 		runtime "Debug"
@@ -50,6 +54,8 @@ project "NVRHI-Vulkan"
 		runtime "Release"
 		optimize "speed"
         symbols "off"
+
+if os.istarget("windows") then
 
 project "NVRHI-D3D11"
 	kind "StaticLib"
@@ -69,7 +75,7 @@ project "NVRHI-D3D11"
 		"src/d3d11/**.h",
 		"src/d3d11/**.cpp",
 	}
-	
+
 	defines {
 		"NVRHI_WITH_RTXMU=1",
 		"NOMINMAX"
@@ -105,7 +111,7 @@ project "NVRHI-D3D12"
 
 	files {
 		"include/nvrhi/d3d12.h",
-		
+
 		"thirdparty/DirectX-Headers/src",
 
 		"src/common/dxgi-format.h",
@@ -115,7 +121,7 @@ project "NVRHI-D3D12"
 		"src/d3d12/**.h",
 		"src/d3d12/**.cpp",
 	}
-	
+
 	defines {
 		"NVRHI_WITH_RTXMU=1",
 		"NOMINMAX"
@@ -142,6 +148,8 @@ project "NVRHI-D3D12"
 		optimize "speed"
         symbols "off"
 
+end -- os.istarget("windows")
+
 project "NVRHI"
 	kind "StaticLib"
 	language "C++"
@@ -163,7 +171,7 @@ project "NVRHI"
 
 		"tools/nvrhi.natvis"
 	}
-	
+
 	defines {
 		"NVRHI_WITH_RTXMU=1",
 		"NOMINMAX"
@@ -171,8 +179,6 @@ project "NVRHI"
 
 	links {
 		"NVRHI-Vulkan",
-		"NVRHI-D3D11",
-		"NVRHI-D3D12"
 	}
 
 	includedirs {
@@ -180,6 +186,12 @@ project "NVRHI"
 
 		"rtxmu/include",
 	}
+
+	filter "system:windows"
+		links {
+			"NVRHI-D3D11",
+			"NVRHI-D3D12",
+		}
 
 	filter "configurations:Debug"
 		runtime "Debug"
