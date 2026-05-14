@@ -41,6 +41,7 @@ project "NVRHI-Vulkan"
 
 	filter "system:linux"
 		excludes { "rtxmu/src/D3D12**.cpp" }
+		buildoptions { "-include string" }
 
 	filter "configurations:Debug"
 		runtime "Debug"
