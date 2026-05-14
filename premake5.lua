@@ -40,7 +40,7 @@ project "NVRHI-Vulkan"
 		buildoptions { "/FIstring" }
 
 	filter "system:linux"
-		excludes { "rtxmu/src/D3D12AccelStructManager.cpp" }
+		excludes { "rtxmu/src/D3D12**.cpp" }
 
 	filter "configurations:Debug"
 		runtime "Debug"
